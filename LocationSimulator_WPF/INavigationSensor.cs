@@ -7,7 +7,7 @@ using System.ComponentModel; // for INotifyPropertyChanged
 
 namespace LocationSimulator_WPF
 {
-    internal interface INavigationSensor : INotifyPropertyChanged
+    public interface INavigationSensor : INotifyPropertyChanged
     {
         string SensorName { get; }
         int IntervalMs { get; set; }

@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Timers;
 namespace LocationSimulator_WPF
 {
-    internal abstract class NavigationSensorBase : INavigationSensor
+    public abstract class NavigationSensorBase : INavigationSensor
     {
         private System.Timers.Timer _timer;
         private LocationData _lastReading;

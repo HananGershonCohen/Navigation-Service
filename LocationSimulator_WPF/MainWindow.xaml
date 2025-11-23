@@ -5,8 +5,69 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LocationSimulator_WPF"
         mc:Ignorable="d"
-        Title="SimulatorWindow" Height="800" Width="1280">
-    <Grid>
+        Title="Navigation Simulator" Height="450" Width="800">
 
+    <Window.Resources>
+        <local:InvertBoolConverter x:Key="InvertBoolConverter"/>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="Start All Sensors" 
+                    Width="150" Height="30" Margin="0,0,10,0"
+                    Click="StartAllButton_Click" />
+
+            <Button Content="Stop All Sensors" 
+                    Width="150" Height="30"
+                    Click="StopAllButton_Click" />
+        </StackPanel>
+
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Sensors}">
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="5" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="120"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding SensorName}" 
+                                       FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+
+                            <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                                <TextBlock Text="Interval (ms):"/>
+                                <TextBox Text="{Binding IntervalMs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Width="80" HorizontalAlignment="Left" />
+                            </StackPanel>
+
+                            <TextBlock Grid.Column="2" 
+                                       Text="{Binding LastReadingText}" 
+                                       VerticalAlignment="Center" Margin="10,0,0,0"
+                                       FontFamily="Consolas"/>
+
+                            <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+
+                                <Button Content="Start" Width="50" Margin="0,0,5,0"
+                                        Click="SensorStart_Click"
+                                        IsEnabled="{Binding IsRunning, Converter={StaticResource InvertBoolConverter}}"/>
+
+                                <Button Content="Stop" Width="50"
+                                        Click="SensorStop_Click"
+                                        IsEnabled="{Binding IsRunning}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Window>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LocationSimulator_WPF
 {
-    internal class GpsSensor  : NavigationSensorBase
+    public class GpsSensor  : NavigationSensorBase
     {
         public override string SensorName => "GPS Sensor";
 
