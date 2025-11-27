@@ -16,6 +16,11 @@ namespace LocationSimulator_WPF
         void Start();
         void Stop();
 
-        event Action<LocationData> ReadingAvailable;
+
+        // best practice for event handler
+         event EventHandler<ReadingArrivedEventArgs> OnReadingAvailable;
+
+        // simplified event handler
+        //event Action<LocationData> ReadingAvailable;
     }
 }

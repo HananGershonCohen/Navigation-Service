@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace LocationSimulator_WPF
@@ -11,6 +13,7 @@ namespace LocationSimulator_WPF
     /// </summary>
     public class LocationData
     {
+        // Change access permissions !!!
         public double X { get; set; }
         public double Y { get; set; }
         public double Z { get; set; }
@@ -23,5 +26,17 @@ namespace LocationSimulator_WPF
         {
             return $"[{SensorName}] X:{X:F2} Y:{Y:F2} Z:{Z:F2} | R:{Roll:F2} P:{Pitch:F2} Y:{Yaw:F2}";
         }
+
+        public string ToJson()
+        {
+            return JsonSerializer.Serialize(this);
+        }
+
+        public byte[] ToJsonBytes()
+        {
+            return Encoding.UTF8.GetBytes(ToJson());
+        }
+
+
     }
 }

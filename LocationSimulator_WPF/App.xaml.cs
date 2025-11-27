@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Configuration; // שמור על ה-using הזה אם הוא היה קיים
-using System.Data;          // שמור על ה-using הזה אם הוא היה קיים
+using System.Configuration;
+using System.Data;         
 
 
 namespace LocationSimulator_WPF

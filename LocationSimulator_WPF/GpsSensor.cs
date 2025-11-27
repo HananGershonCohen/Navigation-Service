@@ -8,29 +8,30 @@ namespace LocationSimulator_WPF
 {
     public class GpsSensor  : NavigationSensorBase
     {
+        // test WPF comment
         public override string SensorName => "GPS Sensor";
 
-        //protected override LocationData GenerateNewReading()
-        //{
-        //    // לוגיקה פשוטה לדוגמה ליצירת קריאת מיקום אקראית
-        //    double x = 1.0;
-        //    double y = 1.0;
-        //    double z = 1.0;
-        //    double roll = 1.0;
-        //    double pitch = 1.0;
-        //    double yaw = 1.0;
-        //    return new LocationData
-        //    {
-        //        SensorName = SensorName,
-        //        Timestamp = DateTime.Now,
-        //        X = x,
-        //        Y = y,
-        //        Z = z,
-        //        Roll = roll,
-        //        Pitch = pitch,
-        //        Yaw = yaw
-        //    };
-        //}
+        ////protected override LocationData GenerateNewReading()
+        ////{
+        ////    // לוגיקה פשוטה לדוגמה ליצירת קריאת מיקום אקראית
+        ////    double x = 1.0;
+        ////    double y = 1.0;
+        ////    double z = 1.0;
+        ////    double roll = 1.0;
+        ////    double pitch = 1.0;
+        ////    double yaw = 1.0;
+        ////    return new LocationData
+        ////    {
+        ////        SensorName = SensorName,
+        ////        Timestamp = DateTime.Now,
+        ////        X = x,
+        ////        Y = y,
+        ////        Z = z,
+        ////        Roll = roll,
+        ////        Pitch = pitch,
+        ////        Yaw = yaw
+        ////    };
+        ////}
         private double _currentX = 30.0;
         private Random _random = new Random();
         protected override LocationData GenerateNewReading()

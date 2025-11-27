@@ -51,8 +51,8 @@ namespace LocationSimulator_WPF
         public bool IsRunning => _timer.Enabled;
 
         // מימוש INavigationSensor - אירוע
-        public event Action<LocationData> ReadingAvailable;
-
+      //  public event Action<LocationData> ReadingAvailable;
+         public event EventHandler<ReadingArrivedEventArgs> OnReadingAvailable;
         public NavigationSensorBase()
         {
             _timer = new System.Timers.Timer(IntervalMs);
@@ -71,7 +71,8 @@ namespace LocationSimulator_WPF
             LastReading = newReading;
 
             // 3. הפצת האירוע למאזינים (NavigationService וכו')
-            ReadingAvailable?.Invoke(newReading);
+            // ReadingArrivedEventArgs e = new ReadingArrivedEventArgs(newReading);
+            OnReadingAvailable?.Invoke(this, new ReadingArrivedEventArgs(newReading));
         }
 
         // מימוש INavigationSensor - מתודות
