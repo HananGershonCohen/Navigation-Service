@@ -41,8 +41,8 @@ namespace LocationSimulator_WPF
             protected set
             {
                 _lastReading = value;
-                OnPropertyChanged(nameof(LastReading));
-                OnPropertyChanged(nameof(LastReadingText)); // משתנה מחושב עבור התצוגה
+           //     OnPropertyChanged(nameof(LastReading)); // for ????
+                OnPropertyChanged(nameof(LastReadingText)); // for UI
             }
         }
 

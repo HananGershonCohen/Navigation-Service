@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:LocationSimulator_WPF"
              
-             StartupUri="MainWindow.xaml">
+             StartupUri="MainWindow.xaml">   <!--open file.  name is MainWindow.xaml-->
+   
     <Application.Resources>
 
     </Application.Resources>

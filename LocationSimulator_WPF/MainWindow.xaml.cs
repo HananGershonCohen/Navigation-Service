@@ -17,7 +17,6 @@ namespace LocationSimulator_WPF
             this.DataContext = _controller;
         }
 
-        // --- לוגיקה לשליטה גלובלית (Start All / Stop All) ---
         private void StartAllButton_Click(object sender, RoutedEventArgs e)
         {
             _controller.StartAll();
@@ -28,7 +27,6 @@ namespace LocationSimulator_WPF
             _controller.StopAll();
         }
 
-        // --- לוגיקה לשליטה בחיישן ספציפי ---
         private void SensorStart_Click(object sender, RoutedEventArgs e)
         {
             var sensor = (sender as Button)?.DataContext as INavigationSensor;
