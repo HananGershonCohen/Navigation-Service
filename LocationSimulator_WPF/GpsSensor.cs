@@ -8,6 +8,7 @@ namespace LocationSimulator_WPF
 {
     public class GpsSensor  : NavigationSensorBase
     {
+        // test WPF comment
         public override string SensorName => "GPS Sensor";
 
         ////protected override LocationData GenerateNewReading()
