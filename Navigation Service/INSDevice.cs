@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Navigation_Service
 {
-    internal class INSDevice : NavigationDeviceBase
+    internal class INSDevice : NavigationDevicesBase
     {
         // constructor
         public INSDevice() { }

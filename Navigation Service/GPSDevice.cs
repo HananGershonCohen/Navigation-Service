@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Navigation_Service
 {
-    internal class GPSDevice : NavigationDeviceBase
+    internal class GPSDevice : NavigationDevicesBase
     {
         // constructor
         public GPSDevice() { }

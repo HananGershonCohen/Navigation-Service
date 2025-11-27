@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Navigation_Service
 {
-    internal class CameraDevice : NavigationDeviceBase
+    internal class CameraDevice : NavigationDevicesBase
     {
         // constructor
         public CameraDevice() { }

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Navigation_Service
 {
-    internal class NavigationDeviceBase : INavigationDevice
+    internal class NavigationDevicesBase : INavigationDevice
     {
-        public NavigationDeviceBase() {
+        public NavigationDevicesBase() {
             startTimer();
         }
 

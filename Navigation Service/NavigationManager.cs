@@ -25,7 +25,11 @@ namespace Navigation_Service
             // We access the Position object via e.PositionData
             double posX = e.PositionData.x;
             double posY = e.PositionData.y;
+
+            e.PositionData.z = 10;
+
             double posZ = e.PositionData.z;
+
 
             // Print the device name and the X and Y coordinates with 2 decimal places (F2)
             Console.WriteLine($"Manager received position from {sender.GetType().Name}: X={posX}, Y={posY} , {posZ}");

@@ -8,7 +8,7 @@ namespace Navigation_Service
 {
     internal class PositionArrivedEventArgs  : EventArgs
     {
-        public Position PositionData { get; private set; }
+        public  Position PositionData { get; private set; }
 
         public PositionArrivedEventArgs(Position position)
         {
