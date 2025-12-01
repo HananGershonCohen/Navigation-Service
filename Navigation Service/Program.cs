@@ -6,4 +6,4 @@ using Navigation_Service;
 
 UdpReceiver udpReceiver = new UdpReceiver(11000);
 udpReceiver.StartListening();
-while (true) {}
+Console.ReadLine();

@@ -19,21 +19,35 @@ namespace Navigation_Service
             _port = port;
             // socket bound to any IP address on the specified port
             _udpClient = new UdpClient(new IPEndPoint(_IPAddress, _port));
-            Console.WriteLine($"[UDP Receiver] Bound successfully to {_IPAddress} on port {_port}.");
         }
 
+        /// <summary>
+        /// await : recuuve a one datagram !!
+        /// while loop : keep receiving datagrams
+        /// </summary>
+        /// miss : care Exception handling
+        /// <returns></returns>
         public async Task StartListening()
         {
-            Console.WriteLine("[UDP Receiver] Listening loop started. Waiting for datagrams..."); 
-            while (true)
+            Console.WriteLine("[UDP Receiver] Listening loop started. Waiting for datagrams...");
+            try
             {
-                // await : recuuve a one datagram !!
-                // while loop : keep receiving datagrams
-                UdpReceiveResult result = await _udpClient.ReceiveAsync();  // UdpReceiveResult is Struct
-                byte[] receivedBytes = result.Buffer; 
-                string receivedText = Encoding.UTF8.GetString(receivedBytes);
-                Console.WriteLine($"Received: {receivedText} from {result.RemoteEndPoint}");
+                while (true)
+                {
+                    UdpReceiveResult result = await _udpClient.ReceiveAsync();  // UdpReceiveResult is Struct
+                    byte[] receivedBytes = result.Buffer;
+                    // best practies  = return event 
+                    string receivedText = Encoding.UTF8.GetString(receivedBytes);
+                    Console.WriteLine($"Received: {receivedText} from {result.RemoteEndPoint}");
+                }
             }
+            catch (Exception ex)
+            {
+               
+                Console.WriteLine($"[UDP Receiver] Error: {ex.Message}");
+                _udpClient.Close();
+            }
+
         }
 
         public void StopListening()
