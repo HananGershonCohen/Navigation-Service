@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,47 +10,33 @@ namespace Navigation_Service
     internal class NavigationManager
     {
         public NavigationManager() { }
-
-        // add device to the list
-        public void AddDevice()
+        private void updateUdpReceiversAndDevices()
         {
-            navigationDevices.Add(new GPSDevice());
-            navigationDevices.Add(new INSDevice());
-            navigationDevices.Add(new CameraDevice());
-            Console.WriteLine("Devices Added");
+            // There needs to be one object that does all this work. It looks really ugly to have to manually add every sensor to the vector.
+            UdpReceiver GpsReceiver = new UdpReceiver(Constants.GPS_PORT);
+            GPSDevice gpsDevice = new GPSDevice();
+            GpsReceiver.RawDataReceived += gpsDevice.On_RawDataReceived;
+            navigationDevices.Add(gpsDevice);
+            udpReceivers.Add(GpsReceiver);
+
+
         }
 
-        private void Device_onPositionArrived(object sender, PositionArrivedEventArgs e)
+        private void StartListening()
         {
-            // Logic to handle the new position from any device
-            // We access the Position object via e.PositionData
-            double posX = e.PositionData.x;
-            double posY = e.PositionData.y;
-
-            e.PositionData.z = 10;
-
-            double posZ = e.PositionData.z;
-
-
-            // Print the device name and the X and Y coordinates with 2 decimal places (F2)
-            Console.WriteLine($"Manager received position from {sender.GetType().Name}: X={posX}, Y={posY} , {posZ}");
-        }
-
-        private void registerForEvent()
-        {
-            // Iterate over all devices and subscribe to their event
-            foreach (var device in navigationDevices)
+            foreach (var udpReceiver in udpReceivers)
             {
-                // This subscribes the 'Device_onPositionArrived' method to the event of each device
-                device.onPositionArrived += Device_onPositionArrived;
+                // Start listening asynchronously for each UDP receiver
+                Task.Run(() => udpReceiver.StartListening());
             }
-            Console.WriteLine("Manager registered for all device events.");
+            Console.WriteLine("UDP Receivers started listening.");
         }
-
         public void run()
         {
-           AddDevice();
-            registerForEvent();
+            ////////AddDevice();
+            //////// registerForEvent();
+            updateUdpReceiversAndDevices();
+            StartListening();
 
             System.Console.WriteLine("Navigation Manager is running. Press Enter to stop and exit...");
             Console.ReadLine();
@@ -57,9 +44,8 @@ namespace Navigation_Service
         
 
         private List<INavigationDevice> navigationDevices = new List<INavigationDevice>();
+        private List<UdpReceiver> udpReceivers = new List<UdpReceiver>();
 
-
-        
 
     }
 }

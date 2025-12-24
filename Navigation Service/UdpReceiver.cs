@@ -14,7 +14,10 @@ namespace Navigation_Service
         private int _port;
         private IPAddress _IPAddress = IPAddress.Loopback;
 
-        public UdpReceiver(int port = 11000)
+
+        public event EventHandler<RawDataReceivedEventArgs> RawDataReceived;
+
+        public UdpReceiver(int port)
         {
             _port = port;
             // socket bound to any IP address on the specified port
@@ -36,9 +39,9 @@ namespace Navigation_Service
                 {
                     UdpReceiveResult result = await _udpClient.ReceiveAsync();  // UdpReceiveResult is Struct
                     byte[] receivedBytes = result.Buffer;
-                    // best practies  = return event 
-                    string receivedText = Encoding.UTF8.GetString(receivedBytes);
-                    Console.WriteLine($"Received: {receivedText} from {result.RemoteEndPoint}");
+                   
+                    // event
+                    RawDataReceived?.Invoke(this, new RawDataReceivedEventArgs(receivedBytes));
                 }
             }
             catch (Exception ex)
@@ -49,6 +52,7 @@ namespace Navigation_Service
             }
 
         }
+
 
         public void StopListening()
         {
