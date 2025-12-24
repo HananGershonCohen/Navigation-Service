@@ -23,28 +23,21 @@ namespace Navigation_Service
 
             // 4. add to lists
             navigationDevices.Add(gnssDevice);
+            nmeaSources.Add(gnssUdpSource);
         }
 
-        private void StartListening()
-        {
-            foreach (var udpReceiver in udpReceivers)
-            {
-                // Start listening asynchronously for each UDP receiver
-                Task.Run(() => udpReceiver.StartListening());
-            }
-            Console.WriteLine("UDP Receivers started listening.");
-        }
         public void run()
         {
             updateUdpReceiversAndDevices();
-            StartListening();
-
-            System.Console.WriteLine("Navigation Manager is running. Press Enter to stop and exit...");
-            Console.ReadLine();
+            while (true)
+            {
+                // keep the service running
+                Task.Delay(1000).Wait();
+            }
         }
         
 
         private List<INavigationDevice> navigationDevices = new List<INavigationDevice>();
-        private List<UdpReceiver> udpReceivers = new List<UdpReceiver>();
+        private List<INmeaSource> nmeaSources = new List<INmeaSource>();
     }
 }
