@@ -4,14 +4,14 @@ using NmeaParser.Messages;
 
 namespace Navigation_Service
 {
-    internal class GnssReceiver : NavigationDevicesBase
+    internal class GnssDevice : NavigationDevicesBase
     {
         private GPSPosition _currentPosition = new GPSPosition();
 
     
         private readonly Dictionary<Type, INmeaMapper> _mappers;
 
-        public GnssReceiver()
+        public GnssDevice()
         {
             _mappers = new Dictionary<Type, INmeaMapper>
             {

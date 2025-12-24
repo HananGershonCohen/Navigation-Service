@@ -16,7 +16,7 @@ namespace Navigation_Service
             UdpNmeaSource gnssUdpSource = new UdpNmeaSource(Constants.GNSS_PORT);
 
             // 2. create GNSS device
-            GnssReceiver gnssDevice = new GnssReceiver();
+            GnssDevice gnssDevice = new GnssDevice();
 
             // 3. connect GNSS device to UDP source
             gnssDevice.ConnectSource(gnssUdpSource);
