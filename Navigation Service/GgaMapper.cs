@@ -4,7 +4,7 @@ namespace Navigation_Service
 {
     public class GgaMapper : INmeaMapper
     {
-        public void Map(NmeaMessage message, GPSPosition target)
+        public void Map(NmeaMessage message, GNSSPosition target)
         {
             if (message is Gga gga)
             {

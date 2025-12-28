@@ -1,6 +1,6 @@
 ﻿namespace Navigation_Service
 {
-    public class GPSPosition
+    public class GNSSPosition
     {
         // --- Time ---
         // Time in seconds (used for dt calculation)

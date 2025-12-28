@@ -8,9 +8,9 @@ namespace Navigation_Service
 {
     internal class PositionArrivedEventArgs  : EventArgs
     {
-        public  GPSPosition PositionData { get; private set; }
+        public  GNSSPosition PositionData { get; private set; }
 
-        public PositionArrivedEventArgs(GPSPosition position)
+        public PositionArrivedEventArgs(GNSSPosition position)
         {
             PositionData = position;
         }
