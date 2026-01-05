@@ -9,7 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <PackageReference Include="SharpGIS.NmeaParser" Version="3.0.0" /> 
+	  <PackageReference Include="SharpGIS.NmeaParser" Version="3.0.0" />
+	  <PackageReference Include="Serilog" Version="4.3.1-dev-02395" />
+	  <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+	  <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
   </ItemGroup>
 
 </Project>
