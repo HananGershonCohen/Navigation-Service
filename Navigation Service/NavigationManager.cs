@@ -1,8 +1,20 @@
-﻿namespace Navigation_Service
+﻿using Serilog;
+using Serilog.Core;
+
+namespace Navigation_Service
 {
     internal class NavigationManager
     {
-        public NavigationManager() { }
+        private readonly ILogger _logger;
+        public NavigationManager() {
+            _logger = new LoggerConfiguration()
+                    .MinimumLevel.Debug()
+                    .WriteTo.Console()
+                    .CreateLogger()
+                    .ForContext<NavigationManager>();
+
+            _logger.Information("NavigationManager created and Logger initialized.");
+        }
         private void updateUdpReceiversAndDevices()
         {
             // 1. start udp listener on GNSS port
