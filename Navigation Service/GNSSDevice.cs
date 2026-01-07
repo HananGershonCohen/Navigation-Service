@@ -1,17 +1,19 @@
 ﻿using System;
 using NmeaParser.Messages;
+using Serilog;
 
 namespace Navigation_Service
 {
     internal class GNSSDevice : INavigationDevice
     {
         public event EventHandler<PositionArrivedEventArgs> onPositionArrived;
-
         private GNSSPosition _currentPosition = new GNSSPosition();
         private readonly Dictionary<Type, INmeaMapper> _mappers;
-
-        public GNSSDevice()
+        private readonly ILogger _logger;
+        public GNSSDevice(ILogger logger)
         {
+            _logger = logger.ForContext<GNSSDevice>();
+
             _mappers = new Dictionary<Type, INmeaMapper>
             {
                 { typeof(Gga), new GgaMapper() },
@@ -24,6 +26,7 @@ namespace Navigation_Service
         // function to connect from source
         public void ConnectSource(INmeaSource source)
         {
+            _logger.Information("[GNSS Device] Connecting to NMEA source...");
             source.MessageReceived += OnNmeaMessageReceived;
             source.Start();
         }
@@ -40,13 +43,11 @@ namespace Navigation_Service
 
                 // Raise an event or log the updated position.
                 onPositionArrived?.Invoke(this, new PositionArrivedEventArgs(_currentPosition));
-                
-                // for test OR logger.
-                Console.WriteLine($"[GNSS] Pos Updated: Lat={_currentPosition.Latitude:F6}, Lon={_currentPosition.Longitude:F6} (Src: {msgType.Name})");
+              
             }
             else
             {
-                Console.WriteLine("There is no mapping for this message type.");
+                _logger.Debug($"[GNSS Device] No mapper for message type: {msgType.Name}");
             }
         }
     }

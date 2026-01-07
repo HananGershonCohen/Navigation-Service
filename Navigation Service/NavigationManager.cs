@@ -5,35 +5,33 @@ namespace Navigation_Service
 {
     internal class NavigationManager
     {
+
         private readonly ILogger _logger;
-        public NavigationManager() {
-            _logger = new LoggerConfiguration()
-                    .MinimumLevel.Debug()
-                    .WriteTo.Console()
-                    .CreateLogger()
-                    .ForContext<NavigationManager>();
-
-            _logger.Information("NavigationManager created and Logger initialized.");
-        }
-        private void updateUdpReceiversAndDevices()
+        private readonly List<INavigationDevice> _navigationDevices;
+        public NavigationManager(ILogger logger,List<INavigationDevice> device ) 
         {
-            // 1. start udp listener on GNSS port
-            UdpNmeaSource gnssUdpSource = new UdpNmeaSource(Constants.GNSS_PORT);
-
-            // 2. create GNSS device
-            GNSSDevice gnssDevice = new GNSSDevice();
-
-            // 3. connect GNSS device to UDP source
-            gnssDevice.ConnectSource(gnssUdpSource);
-
-            // 4. add to lists
-            navigationDevices.Add(gnssDevice);
-            nmeaSources.Add(gnssUdpSource);
+             _logger = logger.ForContext<NavigationManager>();
+            _navigationDevices = device;
         }
+        //private void updateUdpReceiversAndDevices()
+        //{
+        //    // 1. start udp listener on GNSS port
+        //    UdpNmeaSource gnssUdpSource = new UdpNmeaSource(Constants.GNSS_PORT,_logger);
+
+        //    // 2. create GNSS device
+        //    GNSSDevice gnssDevice = new GNSSDevice(_logger);
+
+        //    // 3. connect GNSS device to UDP source
+        //    gnssDevice.ConnectSource(gnssUdpSource);
+
+        //    // 4. add to lists
+        //    navigationDevices.Add(gnssDevice);
+        //    nmeaSources.Add(gnssUdpSource);
+        //}
 
         public void run()
         {
-            updateUdpReceiversAndDevices();
+        //    updateUdpReceiversAndDevices();
 
             while (true)
             {
@@ -42,8 +40,5 @@ namespace Navigation_Service
             }
         }
 
-
-        private List<INavigationDevice> navigationDevices = new List<INavigationDevice>();
-        private List<INmeaSource> nmeaSources = new List<INmeaSource>();
     }
 }
