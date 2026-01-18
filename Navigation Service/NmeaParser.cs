@@ -28,7 +28,7 @@ namespace Navigation_Service
                 _logger.Debug("[NmeaParser] Parsing sentence: {Sentence}", sentence);
                 var msg = NmeaMessage.Parse(sentence);
 
-                sentceNMEArecived?.Invoke(this, msg);
+                sentceNMEArecived?.Invoke(this, msg); // raise .
 
             }
             catch (Exception ex)

@@ -1,20 +1,19 @@
 ﻿using System;
 using NmeaParser.Messages;
 using Serilog;
-
 namespace Navigation_Service
 {
     internal class GNSSDevice : INavigationDevice
     {
-        public event EventHandler<PositionNMEArrivedEventArgs> onPositionArrived;
+        public event EventHandler<PositionNMEArrivedEventArgs> onPositionArrived; // raise
 
         private GNSSPosition _currentPosition = new GNSSPosition();
         private readonly Dictionary<Type, INmeaMapper> _mappers;
         private readonly ILogger _logger;
-        public GNSSDevice(ILogger logger)
+        public GNSSDevice(NmeaParser messege , ILogger logger)
         {
-
             _logger = logger;
+            messege.sentceNMEArecived += OnNmeaMessageReceived;
             _mappers = new Dictionary<Type, INmeaMapper>
             {
                 { typeof(Gga), new GgaMapper() },
@@ -22,12 +21,6 @@ namespace Navigation_Service
                 // { typeof(Rmc), new RmcMapper() },
 
             };
-        }
-
-        // function to connect from source
-        public void ConnectSource(NmeaParser source)
-        {
-            source.sentceNMEArecived += OnNmeaMessageReceived;
         }
 
         private void OnNmeaMessageReceived(object sender, NmeaMessage message)
@@ -44,7 +37,7 @@ namespace Navigation_Service
                 onPositionArrived?.Invoke(this, new PositionNMEArrivedEventArgs(_currentPosition));
                 
                 // for test OR logger.
-                Console.WriteLine($"[GNSS] Pos Updated: Lat={_currentPosition.Latitude:F6}, Lon={_currentPosition.Longitude:F6} (Src: {msgType.Name})");
+               _logger.Debug($"[GNSSDevice] Pos Updated: Lat={_currentPosition.Latitude:F6}, Lon={_currentPosition.Longitude:F6} (Src: {msgType.Name})");
             }
             else
             {
