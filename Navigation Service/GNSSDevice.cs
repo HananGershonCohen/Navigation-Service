@@ -5,7 +5,7 @@ namespace Navigation_Service
 {
     internal class GNSSDevice : INavigationDevice
     {
-        public event EventHandler<PositionNMEArrivedEventArgs> onPositionArrived; // raise
+        public event EventHandler<PositionArrivedEventArgs> onPositionArrived; // raise
 
         private GNSSPosition _currentPosition = new GNSSPosition();
         private readonly Dictionary<Type, INmeaMapper> _mappers;
@@ -34,7 +34,7 @@ namespace Navigation_Service
                 processor.Map(message, _currentPosition);
 
                 // Raise an event or log the updated position.
-                onPositionArrived?.Invoke(this, new PositionNMEArrivedEventArgs(_currentPosition));
+                onPositionArrived?.Invoke(this, new PositionArrivedEventArgs(_currentPosition));
                 
                 // for test OR logger.
                _logger.Debug($"[GNSSDevice] Pos Updated: Lat={_currentPosition.Latitude:F6}, Lon={_currentPosition.Longitude:F6} (Src: {msgType.Name})");

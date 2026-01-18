@@ -8,7 +8,7 @@ namespace Navigation_Service
 {
     internal class INSDevice : INavigationDevice
     {
-        public event EventHandler<PositionNMEArrivedEventArgs> onPositionArrived;
+        public event EventHandler<PositionArrivedEventArgs> onPositionArrived;
         public INSDevice() { }
           
     }
