@@ -9,6 +9,7 @@ namespace Navigation_Service
 {
     public interface IMeasurement
     {
-        double TimeStamp { get; }
+        // The timestamp is critical for synchronization between them
+        double Timestamp { get; }
     }
 }

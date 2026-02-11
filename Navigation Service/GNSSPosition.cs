@@ -1,6 +1,6 @@
 ﻿namespace Navigation_Service
 {
-    public class GNSSPosition
+    public class GNSSPosition : ImuMeasurement
     {
         // --- Time ---
         // Time in seconds (used for dt calculation)
