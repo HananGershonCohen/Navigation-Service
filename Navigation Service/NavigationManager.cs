@@ -38,6 +38,8 @@ namespace Navigation_Service
             {
                 // keep the service running
                 Task.Delay(1000).Wait();
+                // if user press enter , break 
+
             }
         }
 
