@@ -25,8 +25,14 @@ try
     var insDevice = new INSDevice(imuSource, logger);
     devices.Add(insDevice);
 
+    // Add LocationSender to send dummy locations to the simulator
+    var locationSender = new LocationSender(12000, logger);
+    locationSender.Start();
+
     NavigationManager navigationManager = new NavigationManager(logger, devices);
     navigationManager.run();
+
+   
 }
 finally
 {
