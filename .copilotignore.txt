@@ -1,0 +1,50 @@
+# ==========================================================
+# GitHub Copilot Ignore - Production Grade for C#/.NET
+# ==========================================================
+
+# --- Build & Output Artifacts ---
+**/bin/
+**/obj/
+**/publish/
+**/*.exe
+**/*.dll
+**/*.pdb
+**/*.nupkg
+
+# --- IDE & Tooling (Visual Studio / Rider) ---
+.vs/
+.idea/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+.vsconfig
+
+# --- Infrastructure & Dependencies ---
+**/packages/
+**/node_modules/
+.nuget/
+
+# --- Environment & Secrets ---
+**/.env*
+**/appsettings.Development.json
+**/secrets.json
+**/*.pem
+**/*.pfx
+
+# --- Logs & Diagnostics ---
+**/logs/
+**/*.log
+*.etl
+*.evtx
+
+# --- Large Data & Assets (Specific to Navigation/INS) ---
+**/DataDump/
+**/*.csv
+**/*.dat
+**/TestResults/
+
+# --- Documentation Artifacts ---
+**/Help/
+**/_site/
+**/*.chm
