@@ -34,6 +34,13 @@ namespace Navigation_Service
                 // map this messege.
                 processor.Map(message, _currentPosition);
 
+                // Check if the position is valid
+                if (!_currentPosition.IsValid)
+                {
+                    _logger.Warning("[GNSSDevice] Received invalid GPS data. Ignoring.");
+                    return; // Do not propagate invalid data
+                }
+
                 // Raise an event or log the updated position.
                 onPositionArrived?.Invoke(this, new PositionArrivedEventArgs(_currentPosition));
                 

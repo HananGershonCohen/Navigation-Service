@@ -11,12 +11,14 @@ namespace Navigation_Service
     {
         private readonly UdpClient _udpClient;
         private readonly IPEndPoint _simulatorEndpoint;
+        private readonly NavigationState _state;
         private readonly ILogger _logger;
 
-        public LocationSender(int simulatorPort, ILogger logger)
+        public LocationSender(int simulatorPort, NavigationState state, ILogger logger)
         {
             _udpClient = new UdpClient();
             _simulatorEndpoint = new IPEndPoint(IPAddress.Loopback, simulatorPort);
+            _state = state;
             _logger = logger.ForContext<LocationSender>();
         }
 
@@ -31,11 +33,7 @@ namespace Navigation_Service
                 {
                     try
                     {
-                        // Generate random latitude and longitude
-                        double latitude = random.NextDouble() * 180.0 - 90.0; // -90 to 90
-                        double longitude = random.NextDouble() * 360.0 - 180.0; // -180 to 180
-
-                        string location = $"{latitude:F6},{longitude:F6}";
+                        string location = $"{_state.Latitude:F6},{_state.Longitude:F6},{_state.Altitude:F6}";
                         byte[] data = Encoding.UTF8.GetBytes(location);
 
                         // Send location to simulator

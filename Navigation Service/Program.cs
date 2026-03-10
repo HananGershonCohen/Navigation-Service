@@ -23,11 +23,7 @@ try
 
     var imuSource = new UdpSource(Constants.IMU_PORT, logger);
     var insDevice = new INSDevice(imuSource, logger);
-    devices.Add(insDevice);
-
-    // Add LocationSender to send dummy locations to the simulator
-    var locationSender = new LocationSender(12000, logger);
-    locationSender.Start();
+    devices.Add(insDevice);;
 
     NavigationManager navigationManager = new NavigationManager(logger, devices);
     navigationManager.run();
