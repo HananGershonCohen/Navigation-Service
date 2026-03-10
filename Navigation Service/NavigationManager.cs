@@ -8,10 +8,13 @@ namespace Navigation_Service
 
         private readonly ILogger _logger;
         private readonly List<INavigationDevice> _navigationDevices;
-        public NavigationManager(ILogger logger,List<INavigationDevice> device ) 
+        public NavigationManager(ILogger logger,List<INavigationDevice> devices ) 
         {
              _logger = logger.ForContext<NavigationManager>();
-            _navigationDevices = device;
+            _navigationDevices = devices;
+
+           
+
         }
 
         //private void updateUdpReceiversAndDevices()
