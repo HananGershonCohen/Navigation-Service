@@ -2,13 +2,13 @@
 {
     public class NavigationState
     {
-        public double Timestamp { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-        public double Altitude { get; set; }
-        public double Roll { get; set; }
-        public double Pitch { get; set; }
-        public double Yaw { get; set; }
-        public double SpeedMs { get; set; }
+        public double Timestamp { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        public double Latitude { get; set; } = 0.0;
+        public double Longitude { get; set; } = 0.0;
+        public double Altitude { get; set; } = 0.0;
+        public double Roll { get; set; } = 0.0;
+        public double Pitch { get; set; } = 0.0;
+        public double Yaw { get; set; } = 0.0;
+        public double SpeedMs { get; set; } = 0.0;
     }
 }
