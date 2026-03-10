@@ -37,6 +37,12 @@ namespace Navigation_Service
 
             /*here we can implement the logic to update the navigation state based on the new measurement
              with Filter Kalman. */
+            /*
+                  if (e._position is ImuMeasurement imu) 
+                  _kalmanFilter.Predict(imu, _currentState);
+                    else if (e._position is GNSSPosition gps)
+                  _kalmanFilter.Update(gps, _currentState);
+             */
         }
 
         private void initState(PositionArrivedEventArgs e)
