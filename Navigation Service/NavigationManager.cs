@@ -8,30 +8,25 @@ namespace Navigation_Service
 
         private readonly ILogger _logger;
         private readonly List<INavigationDevice> _navigationDevices;
+        private readonly NavigationState _currentState;
         public NavigationManager(ILogger logger,List<INavigationDevice> devices ) 
         {
              _logger = logger.ForContext<NavigationManager>();
             _navigationDevices = devices;
+            _currentState = new NavigationState();
 
-           
+            foreach (var device in _navigationDevices)
+            {
+                device.onPositionArrived += HandleMeasurementReceived; // subscribe to all devices' events
+            }
 
         }
 
-        //private void updateUdpReceiversAndDevices()
-        //{
-        //    // 1. start udp listener on GNSS port
-        //    UdpNmeaSource gnssUdpSource = new UdpNmeaSource(Constants.GNSS_PORT,_logger);
-
-        //    // 2. create GNSS device
-        //    GNSSDevice gnssDevice = new GNSSDevice(_logger);
-
-        //    // 3. connect GNSS device to UDP source
-        //    gnssDevice.ConnectSource(gnssUdpSource);
-
-        //    // 4. add to lists
-        //    navigationDevices.Add(gnssDevice);
-        //    nmeaSources.Add(gnssUdpSource);
-        //}
+        private void HandleMeasurementReceived(object sender, PositionArrivedEventArgs e)
+        {
+           
+            _logger.Information("[NavigationManager]HandleMeasurementReceived");
+        }
 
         public void run()
         {
