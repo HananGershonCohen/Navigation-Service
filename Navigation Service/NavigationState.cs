@@ -10,5 +10,8 @@
         public double Pitch { get; set; } = 0.0;
         public double Yaw { get; set; } = 0.0;
         public double SpeedMs { get; set; } = 0.0;
+
+        // Indicates if the navigation state is ready for use (e.g., after initialization)
+        public bool IsReady { get; set; } = false;
     }
 }

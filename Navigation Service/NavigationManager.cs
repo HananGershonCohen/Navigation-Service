@@ -33,23 +33,25 @@ namespace Navigation_Service
 
         }
 
-        private void HandleMeasurementReceived(object sender, PositionArrivedEventArgs e)
+        private async void HandleMeasurementReceived(object sender, PositionArrivedEventArgs e)
         {
             _logger.Information("[NavigationManager]HandleMeasurementReceived");
 
             IMeasurement measurement = e._position;
+            TryInitialize(measurement);
+            await _locationSender.SendCurrentStateAsync();
 
-            if (_status != NavigationStatus.Ready)
-            {
-                TryInitialize(measurement);
+            //if (_status != NavigationStatus.Ready)
+            //{
 
-                // if not ready after trying, not process with filter.
-                if (_status != NavigationStatus.Ready) return;
-            }
+            //    TryInitialize(measurement);
+            //    // if not ready after trying, not process with filter.
+            //    if (_status != NavigationStatus.Ready) return;
+            //}
 
-            // Process the measurement with the Kalman filter
-            ProcessMeasurementWithFilter(measurement);
-           
+            //// Process the measurement with the Kalman filter
+            //ProcessMeasurementWithFilter(measurement);
+
         }
 
         private void TryInitialize(IMeasurement measurement)
@@ -68,6 +70,7 @@ namespace Navigation_Service
                 }
 
                 _status = NavigationStatus.Ready;
+                _currentState.IsReady = true; 
                 _logger.Information("[Init] Navigation system READY. Initialized via {SourceType}", measurement.GetType().Name);
             }
             else if (_status == NavigationStatus.Idle)
@@ -92,7 +95,6 @@ namespace Navigation_Service
         {
 
             // Start the LocationSender
-            _locationSender.Start();
 
             while (true)
             {
