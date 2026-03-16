@@ -33,7 +33,7 @@ namespace Navigation_Service
                 {
                     try
                     {
-                        string location = $"{_state.Latitude:F6},{_state.Longitude:F6},{_state.Altitude:F6}";
+                        string location = $"{_state.Timestamp:F6},{_state.Latitude:F6},{_state.Longitude:F6},{_state.Altitude:F6},{_state.Roll:F6},{_state.Pitch:F6},{_state.Yaw:F6},{_state.SpeedMs:F6}";
                         byte[] data = Encoding.UTF8.GetBytes(location);
 
                         // Send location to simulator
