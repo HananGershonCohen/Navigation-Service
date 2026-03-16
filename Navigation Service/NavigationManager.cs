@@ -1,17 +1,25 @@
 ﻿using Serilog;
 using Serilog.Core;
+using System.Diagnostics.Metrics;
 
 namespace Navigation_Service
 {
     internal class NavigationManager
     {
+        public enum NavigationStatus
+        {
+            Idle,               // System started, waiting for first data
+            WaitingForAnchor,   // We received INS but missing global position to start
+            Ready               // System initialized and navigating
+        }
+
 
         private readonly ILogger _logger;
         private readonly List<INavigationDevice> _navigationDevices;
         private readonly NavigationState _currentState;
         private readonly LocationSender _locationSender;
-
-        private bool _isInitializedState = false;
+        private NavigationStatus _status = NavigationStatus.Idle;    
+        // private bool _isInitializedState = false;
         public NavigationManager(ILogger logger,List<INavigationDevice> devices ) 
         {
              _logger = logger.ForContext<NavigationManager>();
@@ -28,40 +36,56 @@ namespace Navigation_Service
         private void HandleMeasurementReceived(object sender, PositionArrivedEventArgs e)
         {
             _logger.Information("[NavigationManager]HandleMeasurementReceived");
-            
-            if (!_isInitializedState)
+
+            IMeasurement measurement = e._position;
+
+            if (_status != NavigationStatus.Ready)
             {
-                initState(e);
-                return;
+                TryInitialize(measurement);
+
+                // if not ready after trying, not process with filter.
+                if (_status != NavigationStatus.Ready) return;
             }
 
-            /*here we can implement the logic to update the navigation state based on the new measurement
-             with Filter Kalman. */
-            /*
-                  if (e._position is ImuMeasurement imu) 
-                  _kalmanFilter.Predict(imu, _currentState);
-                    else if (e._position is GNSSPosition gps)
-                  _kalmanFilter.Update(gps, _currentState);
-             */
+            // Process the measurement with the Kalman filter
+            ProcessMeasurementWithFilter(measurement);
+           
         }
 
-        private void initState(PositionArrivedEventArgs e)
+        private void TryInitialize(IMeasurement measurement)
         {
-            if (e._position is GNSSPosition gpsPosition)
+            if (measurement is IGlobalPositionSource posSource)
             {
-                //1. Mark the navigation state as initialized
-                _isInitializedState = true;
+                _currentState.Latitude = posSource.Latitude;
+                _currentState.Longitude = posSource.Longitude;
+                _currentState.Altitude = posSource.Altitude;
+                _currentState.Timestamp = measurement.Timestamp;
 
-                //2. Initialize the navigation state with the GPS position
-                _currentState.Timestamp = gpsPosition.Timestamp;
-                _currentState.Latitude = gpsPosition.Latitude;
-                _currentState.Longitude = gpsPosition.Longitude;
-                _currentState.Altitude = gpsPosition.Altitude;
-                _currentState.SpeedMs = gpsPosition.SpeedMs;
+                if (measurement is IGlobalVelocitySource velSource)
+                {
+                    _currentState.SpeedMs = velSource.SpeedMs;
+                    _currentState.Yaw = velSource.CourseRad;
+                }
 
-                _logger.Information("[NavigationManager] Initialized state from GPS: Timestamp={Timestamp}, Latitude={Latitude}, Longitude={Longitude}, Altitude={Altitude}, Speed={Speed}",
-                    _currentState.Timestamp, _currentState.Latitude, _currentState.Longitude, _currentState.Altitude, _currentState.SpeedMs);
+                _status = NavigationStatus.Ready;
+                _logger.Information("[Init] Navigation system READY. Initialized via {SourceType}", measurement.GetType().Name);
             }
+            else if (_status == NavigationStatus.Idle)
+            {
+                _status = NavigationStatus.WaitingForAnchor;
+                _logger.Warning("[Init] Received {SourceType}. Still waiting for Global Position (GPS) to initialize...", measurement.GetType().Name);
+            }
+        }
+
+        private void ProcessMeasurementWithFilter(IMeasurement measurement)
+        {
+            _currentState.Timestamp = measurement.Timestamp;
+            /*
+            if (measurement is IInertialMeasurementSource imu)
+                _kalmanFilter.Predict(imu, _currentState);
+            else if (measurement is IGlobalPositionSource gps)
+                _kalmanFilter.Update(gps, _currentState);
+            */
         }
 
         public void run()
@@ -81,3 +105,5 @@ namespace Navigation_Service
 
     }
 }
+
+
