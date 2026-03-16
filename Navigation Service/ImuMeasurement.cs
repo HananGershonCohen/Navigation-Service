@@ -1,6 +1,6 @@
 ﻿namespace Navigation_Service
 {
-    public class ImuMeasurement : IMeasurement // Inherits from the common interface we created
+    public class ImuMeasurement : IMeasurement , IInertialMeasurementSource
     {
         // --- Time ---
 
