@@ -37,7 +37,7 @@ namespace Navigation_Service
                         ts = (e.Timestamp - DateTime.UnixEpoch).TotalSeconds;
                     }
 
-                    _currentMeasurement.Timestamp = ts;
+                    _currentMeasurement.Timestamp = DateTime.UnixEpoch.AddSeconds(ts);
                     _currentMeasurement.AccelX = double.Parse(parts[1], CultureInfo.InvariantCulture);
                     _currentMeasurement.AccelY = double.Parse(parts[2], CultureInfo.InvariantCulture);
                     _currentMeasurement.AccelZ = double.Parse(parts[3], CultureInfo.InvariantCulture);

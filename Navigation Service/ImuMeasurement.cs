@@ -6,7 +6,7 @@
 
         // Delta Time (dt) in seconds. Used for calculation.
         // The formula: dt = CurrentTimestamp - PreviousTimestamp
-        public double Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
 
         // --- Accelerometers ---
 

@@ -4,7 +4,7 @@
     {
         // --- Time ---
         // Time in seconds (used for dt calculation)
-        public double Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
 
         // --- Position (3D) ---
         // Latitude in degrees (from GGA)

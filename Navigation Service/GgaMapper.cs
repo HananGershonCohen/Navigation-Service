@@ -14,7 +14,7 @@ namespace Navigation_Service
                 target.Altitude = gga.Altitude;
                 target.IsValid = gga.Quality != Gga.FixQuality.Invalid;
                 target.PosErrorH = gga.Hdop * 5.0;
-                target.Timestamp = gga.FixTime.TotalSeconds;
+                target.Timestamp = DateTime.UtcNow.Date.AddSeconds(gga.FixTime.TotalSeconds);
             }
         }
     }

@@ -9,7 +9,7 @@ namespace Navigation_Service
         private readonly Matrix<double> _Q; // Process Noise Covariance
         private readonly Matrix<double> _R; // Measurement Noise Covariance
         private readonly Matrix<double> _H; // Measurement Matrix
-
+        public Vector<double> LastInnovation { get; private set; }
         public KalmanFilterEngine(Vector<double> initialState, Matrix<double> initialCovariance,
                                    Matrix<double> processNoise, Matrix<double> measurementNoise,
                                    Matrix<double> measurementMatrix)
@@ -34,6 +34,7 @@ namespace Navigation_Service
         {
             // Compute the innovation: y = z - (H * x)
             var y = z - (_H * _x);
+            LastInnovation = y;
 
             // Compute the innovation covariance: S = (H * P * H^T) + R
             var S = (_H * _P * _H.Transpose()) + _R;
@@ -47,6 +48,11 @@ namespace Navigation_Service
             // Update the covariance: P = (I - K * H) * P
             var I = Matrix<double>.Build.DenseIdentity(_P.RowCount);
             _P = (I - K * _H) * _P;
+        }
+
+        public void SetState(Vector<double> newState)
+        {
+            _x = newState;
         }
 
         public Vector<double> GetState() => _x;
