@@ -31,7 +31,7 @@ namespace Navigation_Service
 
                 await _udpClient.SendAsync(data, data.Length, _simulatorEndpoint);
 
-                _logger.Debug("[LocationSender] Sent updated location: {Timestamp}", _state.Timestamp);
+                _logger.Debug("[LocationSender] Sent updated location: {location}", location);
             }
             catch (Exception ex)
             {
