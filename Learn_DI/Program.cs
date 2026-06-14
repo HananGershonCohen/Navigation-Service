@@ -7,7 +7,6 @@ var services = new ServiceCollection();
 
 // 2. Write service 
 services.AddTransient<INotificationService, GmailNotification>();
-services.AddTransient<INotificationService, SmsNotificationService>();
 services.AddTransient<IPaymentService, VISAPayment>();
 services.AddTransient<OrderManager>();
 

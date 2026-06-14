@@ -7,9 +7,13 @@ namespace Navigation_Service
         private Vector<double> _x; // State Vector
         private Matrix<double> _P; // Covariance Matrix
         private readonly Matrix<double> _Q; // Process Noise Covariance
-        private readonly Matrix<double> _R; // Measurement Noise Covariance
-        private readonly Matrix<double> _H; // Measurement Matrix
+
+        // תיקון: הוסרה מילת המפתח readonly כדי לאפשר עדכון דינמי בטוח בזמן ריצה
+        private Matrix<double> _R; // Measurement Noise Covariance
+        private Matrix<double> _H; // Measurement Matrix
+
         public Vector<double> LastInnovation { get; private set; }
+
         public KalmanFilterEngine(Vector<double> initialState, Matrix<double> initialCovariance,
                                    Matrix<double> processNoise, Matrix<double> measurementNoise,
                                    Matrix<double> measurementMatrix)
@@ -19,6 +23,13 @@ namespace Navigation_Service
             _Q = processNoise;
             _R = measurementNoise;
             _H = measurementMatrix;
+        }
+
+        // פתרון ארכיטקטוני נקי: עדכון מטריצות המדידה ללא שימוש ב-Reflection
+        public void UpdateMeasurementModels(Matrix<double> H, Matrix<double> R)
+        {
+            _H = H;
+            _R = R;
         }
 
         public void Predict(Matrix<double> F)
